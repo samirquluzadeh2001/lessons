@@ -62,44 +62,66 @@ public class WriteToFileExampleIO {
     }
 
     private static void writeUsingFileWriter(String data) {
-        File file = new File("/Users/pankaj/FileWriter.txt");
-        FileWriter fr = null;
-        try {
-            fr = new FileWriter(file);
+        File file = new File("test ");
+        try(FileWriter fr = new FileWriter(file)) {
             fr.write(data);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally{
-            //close resources
-            try {
-                fr.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
     private static void writeUsingOutputStream(String data) {
-        OutputStream os = null;
-        try {
-            os = new FileOutputStream(new File("/Users/pankaj/os.txt"));
+        File f = new File("test");//pass, working directory
+
+        try(OutputStream os = new FileOutputStream(f)) {///try-with-resources
             os.write(data.getBytes(), 0, data.length());
+            //x exception
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        //finally, try-with-resources
+
+    }
+
+
+    public static void writeObjectToFile(Object object, String name){
+        FileOutputStream fout = null;
+        ObjectOutputStream oos = null;
+
+        try {
+
+            fout = new FileOutputStream(name);
+            oos = new ObjectOutputStream(fout);
+            oos.writeObject(object);
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+
         } finally {
-            try {
-                os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            if (fout != null) {
+                try {
+                    fout.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
+            if (oos != null) {
+                try {
+                    oos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 
     public static void main(String[] args) {
-        String data = "I will write this String to File in Java";
-        writeUsingFileWriter(data);
-        writeUsingOutputStream(data);
-        System.out.println("DONE");
+        writeUsingOutputStream("Salam");
     }
 
 }

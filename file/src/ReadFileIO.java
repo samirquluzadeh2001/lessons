@@ -1,8 +1,10 @@
+import beans.User;
+
 import java.io.*;
 import java.util.Scanner;
 
 public class ReadFileIO {
-    private static final String FILENAME = "E:\\test\\filename.txt";
+    private static final String FILENAME = "test";
 
     public static void main(String[] args) throws Exception {
         readFileUsingByte();
@@ -36,6 +38,27 @@ public class ReadFileIO {
         }
     }
 
+
+
+    public static void readUsingFileReader() throws Exception {
+        // pass the path to the file as a parameter
+        FileReader fr =  new FileReader(FILENAME);
+
+        int i;
+        while ((i=fr.read()) != -1) {
+            System.out.println("symbol index:" + i);
+            System.out.print((char) i);
+        }
+    }
+
+    public static void readUsingScanner() throws Exception{
+        // pass the path to the file as a parameter
+        File file = new File(FILENAME);
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNextLine())
+            System.out.println(sc.nextLine());
+    }
+
     public static void readUsingBufferedReaderAutoCloseable(){
         try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
 
@@ -50,25 +73,6 @@ public class ReadFileIO {
         }
     }
 
-    public static void readUsingFileReader() throws Exception {
-        // pass the path to the file as a parameter
-        FileReader fr =  new FileReader("C:\\Users\\pankaj\\Desktop\\test.txt");
-
-        int i;
-        while ((i=fr.read()) != -1)
-            System.out.print((char) i);
-    }
-
-    public static void readUsingScanner() throws Exception{
-        // pass the path to the file as a parameter
-        File file =
-                new File("C:\\Users\\pankaj\\Desktop\\test.txt");
-        Scanner sc = new Scanner(file);
-
-        while (sc.hasNextLine())
-            System.out.println(sc.nextLine());
-    }
-
     public static void readFileUsingInputStream(){
         try (InputStream in = new FileInputStream(FILENAME);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -81,7 +85,6 @@ public class ReadFileIO {
         }
     }
 
-
     public static void readFileUsingByte() throws Exception{
         // getBytes from anyWhere
         // I'm getting byte array from File
@@ -89,13 +92,25 @@ public class ReadFileIO {
         FileInputStream fileStream = new FileInputStream(file = new File("Sarkhan Rasullu.jpg"));
 
         // Instantiate array
-        byte[] arr = new byte[(int) file.length()];
-
+        byte[] arr = new byte[(int) file.length()];//
+        System.out.println("file.length()="+file.length());
         // read All bytes of File stream
         fileStream.read(arr, 0, arr.length);
 
-        for (int x : arr) {
+        for (byte x : arr) {
+            System.out.println(x);
             System.out.print((char) x);
+        }
+    }
+
+    public static Object readFileDeserialize(String name){
+        Object obj=null;
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(name))){
+            obj = in.readObject();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            return obj;
         }
     }
 }

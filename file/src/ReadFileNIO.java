@@ -4,8 +4,9 @@ public class ReadFileNIO {
 
     public static String readFileAsString(String fileName)throws Exception
     {
-        String data = new String(readFileAsByte(fileName));
-        return data;
+        byte[] data= readFileAsByte(fileName);
+        String dataStr = new String(data);
+        return dataStr;
     }
 
     public static byte[] readFileAsByte(String fileName) throws Exception{
