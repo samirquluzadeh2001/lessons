@@ -3,6 +3,7 @@ import beans.UserWrapper;
 
 public class Main {
 //salam
+    //  by samir
     public static void main(String[] args) {
         User[] arr = new User[2];
         arr[0] = new User("Sarkhan","Rasullu",25,"122343");
